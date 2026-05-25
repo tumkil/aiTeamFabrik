@@ -1,0 +1,41 @@
+# Internal identifier used throughout the factory to reference this agent.
+name: developer
+# Human-readable name shown in status output and log messages.
+display_name: Developer
+# LLM model to use. Can be a plain string for a single model, or a provider-keyed
+# mapping with an optional "default" fallback:
+#   model:
+#     anthropic: claude-sonnet-4-6
+#     ollama: qwen2.5-coder:32b
+#     default: claude-haiku-4-5-20251001
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: PROVIDER
+# Controls what the agent does after generating a response.
+# execute — clones the repo, applies changes, commits, pushes, and opens a merge request.
+# plan    — posts the proposed changes as a GitLab issue comment without touching the repo.
+execution_mode: execute
+# Logical capabilities declared by this agent. The orchestrator uses these when
+# resolving which agent handles a given task type.
+capabilities:
+  - feature_implementation
+  - bug_fix
+  - code_review
+  - test_writing
+# GitLab issue labels that trigger this agent. Issues carrying any of these labels
+# are routed to the developer by the orchestrator.
+task_labels:
+  - feature
+  - bug
+  - backend
+  - frontend
+# Maximum number of tasks this agent may work on simultaneously.
+max_concurrent_tasks: 3
+# Extra tools to enable for this agent's LLM calls. Currently supports "web_search".
+# Leave empty to use the default tool set for the provider.
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Developer agent of SoftwareTeamFabrik running inside a git repository.
+  You have tools to read files, write files, list directories, run commands, and search code.
+  Your job is to implement the given GitLab issue completely — writing real, working code.

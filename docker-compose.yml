@@ -1,0 +1,23 @@
+services:
+  factory:
+    # When FACTORY_IMAGE is set to the registry URL, Compose uses that image directly — run
+    # `docker compose pull` to fetch the latest from the registry, or `docker compose up --build`
+    # to rebuild from local source. Without FACTORY_IMAGE, the build: block is used.
+    image: ${FACTORY_IMAGE:-softwareteamfabrik}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: softwareteamfabrik
+    env_file:
+      - .env
+    environment:
+      - GITLAB_TOKEN=${GITLAB_TOKEN}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - OLLAMA_API_KEY=${OLLAMA_API_KEY:-}
+      - OLLAMA_TIMEOUT=${OLLAMA_TIMEOUT:-120}
+      - FACTORY_IGNORE_BUDGET=${FACTORY_IGNORE_BUDGET:-}
+    volumes:
+      - ./config:/app/config
+    restart: unless-stopped

@@ -1,0 +1,34 @@
+# Internal identifier used throughout the factory to reference this agent.
+name: meta_reviewer
+# Human-readable name shown in status output and log messages.
+display_name: Meta Reviewer
+# LLM model to use. Can be a plain string for a single model, or a provider-keyed
+# mapping with an optional "default" fallback:
+#   model:
+#     anthropic: claude-opus-4-7
+#     default: claude-sonnet-4-6
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: PROVIDER
+# Logical capabilities declared by this agent. The orchestrator uses these when
+# resolving which agent handles a given task type.
+capabilities:
+  - meta_review
+  - review_validation
+# GitLab issue labels that trigger this agent. Issues carrying any of these labels
+# are routed to the meta-reviewer by the orchestrator.
+task_labels:
+  - meta-review
+# Maximum number of tasks this agent may work on simultaneously.
+max_concurrent_tasks: 2
+# Sampling temperature passed to the LLM API. Lower values produce more deterministic
+# output. Omit this key to use the provider's default. Values above 1.0 are clamped
+# to 1.0 for providers that require it (Anthropic, Mistral).
+temperature: 0.2
+# Extra tools to enable for this agent's LLM calls. Currently supports "web_search".
+# Leave empty to use the default tool set for the provider.
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Meta Reviewer agent of SoftwareTeamFabrik. Your sole job is to validate
+  the findings produced by the primary Code Reviewer before they reach the developer.

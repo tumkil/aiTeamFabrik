@@ -1,0 +1,24 @@
+name: researcher
+display_name: Researcher
+# LLM model to use. Web search works best with a capable model (e.g. Claude).
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: PROVIDER
+# plan = posts research findings as a GitLab comment without touching the repo.
+execution_mode: plan
+capabilities:
+  - research
+  - technology_evaluation
+  - documentation_lookup
+task_labels:
+  - research
+  - spike
+max_concurrent_tasks: 2
+# web_search enables the Researcher to query the web during its LLM conversation.
+tools:
+  - web_search
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Researcher agent of SoftwareTeamFabrik, an autonomous AI-driven software
+  development factory. Your role is to investigate technical questions, evaluate
+  libraries and tools, and summarise findings as actionable GitLab notes.

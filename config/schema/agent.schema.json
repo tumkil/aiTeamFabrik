@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "agent.schema.json",
+  "title": "SoftwareTeamFabrik Agent Profile",
+  "description": "Configuration schema for a factory agent. Edit system_prompt to change behaviour.",
+  "type": "object",
+  "required": ["name", "display_name", "model", "provider"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique machine-readable identifier (lowercase, no spaces).",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Human-readable name shown in CLI output."
+    },
+    "model": {
+      "type": "string",
+      "description": "LLM model identifier passed to the provider API.",
+      "examples": [
+        "claude-opus-4-7",
+        "claude-sonnet-4-6",
+        "claude-haiku-4-5-20251001",
+        "mistral-large-latest"
+      ]
+    },
+    "provider": {
+      "type": "string",
+      "description": "API provider that hosts this model.",
+      "enum": ["anthropic", "mistral", "ollama", "stub"]
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Logical capabilities used by the Competence Manager to assign tasks.",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "task_labels": {
+      "type": "array",
+      "description": "GitLab issue labels that trigger this agent when running 'factory run'.",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "max_concurrent_tasks": {
+      "type": "integer",
+      "description": "Maximum number of issues this agent can work on simultaneously.",
+      "minimum": 1,
+      "default": 1
+    },
+    "tools": {
+      "type": "array",
+      "description": "Built-in tools made available to this agent during LLM calls.",
+      "items": {
+        "type": "string",
+        "enum": ["web_search"]
+      },
+      "uniqueItems": true
+    },
+    "system_prompt": {
+      "type": "string",
+      "description": "The full system prompt sent to the LLM on every call. Edit freely to change agent behaviour, tone, and output format."
+    },
+    "execution_mode": {
+      "type": "string",
+      "description": "'plan' = one-shot analysis + comment. 'execute' = agentic loop with file tools, writes and commits real code.",
+      "enum": ["plan", "execute"],
+      "default": "plan"
+    },
+    "temperature": {
+      "type": "number",
+      "description": "Sampling temperature passed to the provider API. Omit to use the provider default. Lower values (e.g. 0.2) produce more deterministic output. Both Anthropic and Mistral cap at 1.0; values above 1.0 are clamped by the router.",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

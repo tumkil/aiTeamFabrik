@@ -1,0 +1,36 @@
+# Internal identifier used throughout the factory to reference this agent.
+name: reviewer
+# Human-readable name shown in status output and log messages.
+display_name: Code Reviewer
+# LLM model to use. Can be a plain string for a single model, or a provider-keyed
+# mapping with an optional "default" fallback:
+#   model:
+#     anthropic: claude-sonnet-4-6
+#     ollama: glm-5.1:cloud
+#     default: claude-haiku-4-5-20251001
+model: glm-5.1:cloud
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: ollama
+# Logical capabilities declared by this agent. The orchestrator uses these when
+# resolving which agent handles a given task type.
+capabilities:
+  - mr_review
+  - code_review
+  - style_review
+# GitLab issue labels that trigger this agent. Issues carrying any of these labels
+# are routed to the reviewer by the orchestrator.
+task_labels:
+  - review
+  - code-review
+# Maximum number of tasks this agent may work on simultaneously.
+max_concurrent_tasks: 3
+# Extra tools to enable for this agent's LLM calls. Currently supports "web_search".
+# Leave empty to use the default tool set for the provider.
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Code Reviewer agent of SoftwareTeamFabrik, an autonomous AI-driven software
+  development factory. Your role is reviewing merge requests before they are merged.
+
+  ## Verdict
+  One of: ✅ APPROVE | ⚠️ REQUEST CHANGES | 🚫 BLOCK

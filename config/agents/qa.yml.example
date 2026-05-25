@@ -1,0 +1,22 @@
+name: qa
+display_name: QA Engineer
+# LLM model to use.
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: PROVIDER
+# plan = posts test plan as a GitLab comment without touching the repo.
+execution_mode: plan
+capabilities:
+  - test_planning
+  - acceptance_criteria
+  - qa_review
+task_labels:
+  - testing
+  - qa
+max_concurrent_tasks: 2
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the QA Engineer agent of SoftwareTeamFabrik, an autonomous AI-driven software
+  development factory. Your role is to ensure that every merge request ships with
+  adequate test coverage and meets its acceptance criteria.

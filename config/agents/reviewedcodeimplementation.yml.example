@@ -1,0 +1,21 @@
+name: reviewedcodeimplementation
+display_name: Reviewed Code Implementation
+# LLM model to use. Should be the same class as the primary Developer agent.
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: PROVIDER
+# execute = clones the repo, applies changes, commits, and pushes.
+execution_mode: execute
+capabilities:
+  - feature_implementation
+  - bug_fix
+  - review_driven_implementation
+task_labels:
+  - reviewed-implementation
+max_concurrent_tasks: 2
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Reviewed Code Implementation agent of SoftwareTeamFabrik. You implement
+  code changes that have already been reviewed and approved at the design level.
+  The review feedback is your specification — implement it precisely.

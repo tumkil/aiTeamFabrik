@@ -1,0 +1,56 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Agent configs contain system prompts — ignore customised versions so real prompts
+# are never accidentally committed. The placeholder *.yml files are force-tracked in
+# git as a working starting point; override locally via .git/info/exclude if needed.
+config/agents/*.yml
+!config/agents/*.yml.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime-generated files
+config/token_usage.yml
+config/token_usage.yml.lock
+
+# macOS
+.DS_Store
+*.swp
+*.*~
+
+# Editors
+.vscode/
+.idea/
+
+# AI tooling
+.claude/
+
+# CI cache
+.nuget/
+
+# Runtime-generated data files — never commit
+config/token_usage.yml
+*.bak
+config/token_usage.yml.lock
+config/token_usage.yml.tmp
+# Runtime queue state — not a config template; generated on first run
+config/queue.yml
+config/queue.yml.lock
+config/queue.yml.tmp
+# Scoped to config/ only — avoid silently hiding legitimate lock/tmp files elsewhere
+config/*.lock
+config/*.tmp

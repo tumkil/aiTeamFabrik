@@ -1,0 +1,31 @@
+gitlab:
+  project: your-group/your-project
+  url: https://gitlab.your-company.com
+sprint:
+  capacity:
+    max_issues: 10
+    total_points: 10
+  current: 4
+  duration_days: 14
+  labels:
+    done: Done
+    in_progress: In Progress
+    review: In Review
+  milestone_prefix: Sprint
+  name: Sprint 1
+  start_date: '2026-05-26'
+token_budget:
+  agents:
+    architect:
+      daily: 50000
+      sprint: 400000
+    developer:
+      daily: 400000
+      sprint: 2000000
+    reviewer:
+      daily: 800000
+      sprint: 4000000
+  defaults:
+    daily: 100000
+    sprint: 1000000
+  enforcement: strict

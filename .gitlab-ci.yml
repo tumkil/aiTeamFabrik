@@ -1,0 +1,49 @@
+image: python:3.11-slim
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_HOST: "tcp://docker:2376"
+  DOCKER_TLS_VERIFY: "1"
+  DOCKER_CERT_PATH: "/certs/client"
+
+cache:
+  key: "$CI_COMMIT_REF_SLUG"
+  paths:
+    - .cache/pip
+
+stages:
+  - lint
+  - test
+  - publish
+
+default:
+  before_script:
+    - pip install --quiet -e ".[dev]"
+
+lint:
+  stage: lint
+  script:
+    - python -m py_compile factory/main.py factory/commands/status.py factory/adapters/gitlab_client.py factory/core/competence.py
+    - echo "Syntax OK"
+
+test:
+  stage: test
+  script:
+    - pytest tests/ -v -m "not integration"
+
+publish:
+  stage: publish
+  image: docker:24
+  services:
+    - name: docker:24-dind
+      alias: docker
+  needs: ["lint", "test"]
+  before_script: []
+  script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - docker build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master" && $CI_PIPELINE_SOURCE == "push"'

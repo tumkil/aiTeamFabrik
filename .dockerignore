@@ -1,0 +1,50 @@
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache
+.coverage
+htmlcov/
+.tox
+.nox
+.eggs
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Local config (use .env.example as template)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Test outputs
+.test_cache
+coverage.xml
+
+# Docker
+Dockerfile
+docker-compose*
+.docker

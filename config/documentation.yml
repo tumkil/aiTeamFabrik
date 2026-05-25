@@ -1,0 +1,55 @@
+# Documentation Configuration for SoftwareTeamFabrik
+
+# Title of the documentation page
+title: "Project Documentation"
+
+# Content of the documentation page (Markdown format)
+content: |-
+  ## Overview
+
+  This is the official documentation for the project. It provides detailed information about the project's architecture, features, and usage.
+
+  ## Features
+
+  - **Feature 1**: Description of feature 1.
+  - **Feature 2**: Description of feature 2.
+  - **Feature 3**: Description of feature 3.
+
+  ## Usage
+
+  To use this project, follow these steps:
+
+  1. Install the required dependencies.
+  2. Configure the project using the provided configuration files.
+  3. Run the project using the command `factory run`.
+
+  ## Configuration
+
+  The project can be configured using the `config/factory.yml` file. Refer to the configuration guide for more details.
+
+  ## API Reference
+
+  The project provides a RESTful API for integration with other systems. Refer to the API documentation for more details.
+
+  ## Examples
+
+  Here are some examples of how to use the project:
+
+  ```python
+  # Example 1
+  from factory import Factory
+  factory = Factory()
+  factory.run()
+  ```
+
+  ```bash
+  # Example 2
+  factory run --config config/factory.yml
+  ```
+
+  ## Support
+
+  For support, please contact the project maintainers or open an issue on the project's GitLab repository.
+
+# Wiki slug for GitLab wiki (optional)
+wiki_slug: "project-documentation"

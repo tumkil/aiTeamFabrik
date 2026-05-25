@@ -1,0 +1,37 @@
+# Internal identifier used throughout the factory to reference this agent.
+name: architect
+# Human-readable name shown in status output and log messages.
+display_name: Architect
+# LLM model to use. Can be a plain string for a single model, or a provider-keyed
+# mapping with an optional "default" fallback:
+#   model:
+#     anthropic: claude-opus-4-7
+#     ollama: qwen2.5-coder:32b
+#     default: claude-sonnet-4-6
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: Provider
+# Logical capabilities declared by this agent. The orchestrator uses these when
+# resolving which agent handles a given task type (e.g. "wiki_authoring" routes
+# wiki-update requests here).
+capabilities:
+  - system_design
+  - architecture_review
+  - wiki_authoring
+  - adr_writing
+# GitLab issue labels that trigger this agent. Issues carrying any of these labels
+# are routed to the architect by the orchestrator.
+task_labels:
+  - architecture
+  - design
+# Maximum number of tasks this agent may work on simultaneously.
+max_concurrent_tasks: 1
+# Extra tools to enable for this agent's LLM calls. Currently supports "web_search".
+# Leave empty to use the default tool set for the provider.
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Architect agent of SoftwareTeamFabrik, an autonomous AI-driven software
+  development factory. Your role is strategic and structural.
+
+

@@ -1,0 +1,57 @@
+# GitLab connection settings.
+gitlab:
+  # GitLab project path in the format "group/project" or "group/subgroup/project".
+  project: your-group/your-project
+  # Base URL of your GitLab instance. Use https://gitlab.com for GitLab.com.
+  url: https://gitlab.your-company.com
+
+# Sprint (Scrum iteration) configuration.
+sprint:
+  # How many issues and story points the team can take on in a single sprint.
+  # The PO agent uses these limits when selecting backlog issues.
+  capacity:
+    # Maximum number of issues to pull into the sprint.
+    max_issues: 10
+    # Maximum total story-point weight allowed across all sprint issues.
+    total_points: 10
+  # Numeric ID of the sprint milestone currently active in GitLab.
+  current: 4
+  # Length of a sprint in calendar days. Used to calculate the milestone due date.
+  duration_days: 14
+  # GitLab label names the factory reads and sets to reflect issue workflow state.
+  labels:
+    done: Done
+    in_progress: In Progress
+    review: In Review
+  # Prefix prepended to the sprint number when creating GitLab milestones (e.g. "Sprint 4").
+  milestone_prefix: Sprint
+  # Human-readable sprint name shown in status output.
+  name: Sprint 1
+  # Start date of the current sprint (ISO 8601). Used together with duration_days
+  # to derive the milestone due date and to detect whether the sprint has ended.
+  start_date: '2026-05-26'
+
+# Token-budget controls for LLM API usage.
+token_budget:
+  # Per-agent overrides. Agents not listed here fall back to `defaults`.
+  agents:
+    architect:
+      # Maximum tokens the architect agent may consume in a single calendar day.
+      daily: 50000
+      # Maximum tokens the architect agent may consume across the entire sprint.
+      sprint: 400000
+    developer:
+      daily: 400000
+      sprint: 2000000
+    reviewer:
+      daily: 800000
+      sprint: 4000000
+  # Fallback limits applied to any agent not listed under `agents`.
+  defaults:
+    daily: 100000
+    sprint: 1000000
+  # How the factory responds when an agent would exceed its budget.
+  # strict — block the call and raise BudgetExceededError (default).
+  # warn   — allow the call but log a warning.
+  # off    — disable budget checks entirely.
+  enforcement: strict

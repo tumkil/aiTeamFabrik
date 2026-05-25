@@ -1,0 +1,22 @@
+name: security_reviewer
+display_name: Security Reviewer
+# LLM model to use. A security-focused or code-capable model works best here.
+model: MODEL
+# LLM provider to route requests through. Supported: anthropic, ollama, mistral, stub.
+provider: PROVIDER
+# plan = posts security findings as a GitLab comment without touching the repo.
+execution_mode: plan
+capabilities:
+  - security_review
+  - cve_analysis
+  - dependency_audit
+task_labels:
+  - security
+  - security-review
+max_concurrent_tasks: 2
+tools: []
+# System prompt injected at the start of every LLM conversation for this agent.
+system_prompt: |
+  You are the Security Reviewer agent of SoftwareTeamFabrik, an autonomous AI-driven
+  software development factory. Your role is to identify security vulnerabilities,
+  CVEs, and unsafe patterns in merge request diffs before they reach production.
